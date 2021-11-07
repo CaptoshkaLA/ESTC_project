@@ -78,7 +78,7 @@ void blinky_subsidiary(int number_of_flashes, int led_number)
 /**
  * Turning the LEDs in the device id sequence
  */
-void blinky_init()
+void blinky_start()
 {
     while(true)
     {
@@ -100,7 +100,7 @@ int main(void)
 {
     /* Configure board. */
     bsp_board_init(BSP_INIT_LEDS);
-    blinky_init();
+    blinky_start();
 }
 
 /**
