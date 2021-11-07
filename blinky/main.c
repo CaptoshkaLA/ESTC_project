@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) 2014 - 2021, Nordic Semiconductor ASA
  *
@@ -53,23 +54,49 @@
 #include "nrf_delay.h"
 #include "boards.h"
 
+void bsp_board_led_blink(int i)
+{
+    bsp_board_led_invert(i);
+    nrf_delay_ms(500);
+    bsp_board_led_off(i);
+    nrf_delay_ms(500);
+}
+
+void blinky_init()
+{
+    while(true)
+    {
+        for (int i = 0; i < LEDS_NUMBER; i++)
+        {
+        switch(i)
+        {
+            // Device id 6588
+            case 0:{
+                for(int j = 0; j < 6; j++) bsp_board_led_blink(i);
+                break;
+            }
+            case 1:{
+                for(int j = 0; j < 5; j++) bsp_board_led_blink(i);
+                break;
+            }
+            case 2: case 3:{
+                for(int j = 0; j < 8; j++) bsp_board_led_blink(i);
+                break;
+            }
+        }
+        }
+    }
+}
+
 /**
  * @brief Function for application main entry.
  */
+
 int main(void)
 {
     /* Configure board. */
     bsp_board_init(BSP_INIT_LEDS);
-
-    /* Toggle LEDs. */
-    while (true)
-    {
-        for (int i = 0; i < LEDS_NUMBER; i++)
-        {
-            bsp_board_led_invert(i);
-            nrf_delay_ms(500);
-        }
-    }
+    blinky_init();
 }
 
 /**
