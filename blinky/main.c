@@ -84,22 +84,8 @@ void blinky_init()
     {
         for (int i = 0; i < LEDS_NUMBER; i++)
         {
-            switch(i)
-            {
-                // Device id 6588
-                case 0:{
-                    blinky_subsidiary(6,i);
-                    break;
-                }
-                case 1:{
-                    blinky_subsidiary(5,i);
-                    break;
-                }
-                case 2: case 3:{
-                    blinky_subsidiary(8,i);
-                    break;
-                }
-            }
+            int const led_score[4] = {6, 5, 8, 8};
+            blinky_subsidiary(led_score[i],i);
         }
     }
 }
