@@ -54,39 +54,57 @@
 #include "nrf_delay.h"
 #include "boards.h"
 
-void bsp_board_led_blink(int i)
+
+/**
+ * LED on function
+ */
+void bsp_board_led_blink(int led_number)
 {
-    bsp_board_led_invert(i);
+    bsp_board_led_invert(led_number);
     nrf_delay_ms(500);
-    bsp_board_led_off(i);
+    bsp_board_led_off(led_number);
     nrf_delay_ms(500);
 }
 
+/**
+ * Subsidiary function for blinky_init()
+ */
+void blinky_subsidiary(int number_of_flashes, int led_number)
+{
+    for(int i = 0; i < number_of_flashes; i++)
+         bsp_board_led_blink(led_number);
+}
+
+/**
+ * Turning the LEDs in the device id sequence
+ */
 void blinky_init()
 {
     while(true)
     {
         for (int i = 0; i < LEDS_NUMBER; i++)
         {
-        switch(i)
-        {
-            // Device id 6588
-            case 0:{
-                for(int j = 0; j < 6; j++) bsp_board_led_blink(i);
-                break;
+            switch(i)
+            {
+                // Device id 6588
+                case 0:{
+                    blinky_subsidiary(6,i);
+                    break;
+                }
+                case 1:{
+                    blinky_subsidiary(5,i);
+                    break;
+                }
+                case 2: case 3:{
+                    blinky_subsidiary(8,i);
+                    break;
+                }
             }
-            case 1:{
-                for(int j = 0; j < 5; j++) bsp_board_led_blink(i);
-                break;
-            }
-            case 2: case 3:{
-                for(int j = 0; j < 8; j++) bsp_board_led_blink(i);
-                break;
-            }
-        }
         }
     }
 }
+
+
 
 /**
  * @brief Function for application main entry.
